@@ -19,6 +19,29 @@ jobs:
           go-version: "1.20.x"
           cache: false
 
+      - name: Get Go cached paths
+        run: |
+          echo "cache=$(go env GOCACHE)" >> $GITHUB_ENV
+          echo "modcache=$(go env GOMODCACHE)" >> $GITHUB_ENV
+         
+      - name: Set up dependencies cache
+        uses: actions/cache@v3
+        with:
+          path: |
+            ${{ env.cache }}
+          key: setup-go-deps-${{ hashFiles('go.sum go.mod') }}
+          restore-keys: |
+            setup-go-deps-
+        
+      - name: Set up intermediate built files cache
+        uses: actions/cache@v3
+        with:
+          path: |
+            ${{ env.modcache }}
+          key: setup-go-build-${{ hashFiles('**/*.go') }}
+          restore-keys: |
+            setup-go-build-
+            
       - name: get
         run: |
           go get
