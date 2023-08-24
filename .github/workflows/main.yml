@@ -24,7 +24,7 @@ jobs:
           echo "cache=$(go env GOCACHE)" >> $GITHUB_ENV
           echo "modcache=$(go env GOMODCACHE)" >> $GITHUB_ENV
          
-      - name: Set up dependencies cache
+      - name: Restore dependencies cache
         uses: actions/cache@v3
         with:
           path: |
@@ -33,7 +33,7 @@ jobs:
           restore-keys: |
             setup-go-deps-
         
-      - name: Set up intermediate built files cache
+      - name: Restore intermediate built files cache
         uses: actions/cache@v3
         with:
           path: |
@@ -41,6 +41,13 @@ jobs:
           key: setup-go-build-${{ hashFiles('**/*.go') }}
           restore-keys: |
             setup-go-build-
+
+      - name: Cached files stats
+        run: |
+          echo 'Cache build artefacts size (Mb):'
+          du -m -s ${{ env.cache }}
+          echo 'Cached dependencies size (Mb):'
+          du -m -s ${{ env.modcache }}
             
       - name: get
         run: |
