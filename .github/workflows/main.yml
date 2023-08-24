@@ -44,7 +44,7 @@ jobs:
 
       - name: Cached files stats
         run: |
-          echo 'Cache build artefacts size (Mb):'
+          echo 'Cache intermediate built files size (Mb):'
           du -m -s ${{ env.cache }}
           echo 'Cached dependencies size (Mb):'
           du -m -s ${{ env.modcache }}
