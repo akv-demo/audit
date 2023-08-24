@@ -42,6 +42,7 @@ func (s *stringSlice) Set(value string) error {
 }
 
 func main() {
+	// 
 	// Create a new cli program.
 	p := cli.NewProgram()
 	p.Name = "audit"
